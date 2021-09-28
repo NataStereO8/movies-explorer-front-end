@@ -1,0 +1,28 @@
+.films-list{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-top: 167px;
+    margin-bottom: 30px;
+}
+
+
+
+@media (max-width: 768px) {
+
+    .films-list{
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 414px) {
+
+    .films-list{
+        grid-template-columns: 1fr;
+    }
+    
+}

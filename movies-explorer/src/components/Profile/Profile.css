@@ -1,0 +1,76 @@
+.content{
+    margin-left: 70px;
+    margin-right: 70px;
+}
+
+.profile__title{
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+}
+
+.profile__title_account{
+    margin-top: 74px;
+    margin-bottom: 108px;
+}
+
+.about__info{
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 410px;
+}
+
+.about__text{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 11px;
+    line-height: 14px;
+}
+
+.about__line{
+    background-color: #E8E8E8;
+    height: 1px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.textButton{
+    font-size: 14px;
+    line-height: 17px;
+    background-color: transparent;
+    border: none;
+    margin: 0;
+}
+
+.textButton_pink{
+    color: #FF3055;
+    position: absolute;
+    bottom: 70px;
+    left: 50%;
+    width: 410px;
+    margin-left: -205px;
+}
+
+
+.textButton_black{
+    color: #000000;
+    position: absolute;
+    bottom: 102px;
+    left: 50%;
+    width: 410px;
+    margin-left: -205px;
+}
+
+@media (max-width: 500px) {
+    .page {
+        margin-left: 45px;
+        margin-right: 45px;
+    }
+}
