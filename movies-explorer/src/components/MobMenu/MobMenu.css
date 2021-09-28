@@ -1,0 +1,63 @@
+.mob-menu__section{
+    width: 100vw;
+    height: 100vh;
+    display: none;
+    z-index: 1000;
+    opacity: 1;
+
+}
+
+.mob-menu__background{
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    position: absolute;
+    opacity: 0.3;
+    top: 0;
+    left: 0;
+}
+
+.mob-menu__container{
+    max-height: 100vh;
+    height: 100%;
+    max-width: 520px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+.mob-menu{
+    height: 100vh;
+    height: 100%;
+}
+
+.mob-menu__icon{
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    top: 29px;
+    right: 29px;
+    z-index: 2000;
+}
+
+.mob-menu__open-button{
+    border: transparent;
+    background-color: transparent;
+}
+
+.mob-menu__button-text{
+    font-size: 14px;
+    line-height: 16px;
+    font-weight: 400;
+    margin-right: 16px;
+}
+
+.mob-menu__button_account{
+    display: flex;
+    align-items: center;
+}
+
+.mob-menu__section_open{
+    display: flex;
+}
