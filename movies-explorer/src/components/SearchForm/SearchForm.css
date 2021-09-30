@@ -7,6 +7,7 @@
     flex-direction: row;
     justify-content: space-between;
     margin-top: 70px;
+    max-width: 100%;
 }
 .search__icon{
     max-width: 34px;
@@ -16,7 +17,7 @@
     width: 100%;
 }
 .search__input{
-    min-width: 100%;
+    width: 100%;
     outline: none;
     border: none;
     text-align: center;
@@ -35,6 +36,7 @@
     line-height: 18px;
     color: #ffffff;
     max-height: 34px;
+    width: 60px;
 }
 .main__line{
     height: 1px;
@@ -43,7 +45,6 @@
 }
 .filter__container{
     display: flex;
-    margin: auto;
     margin-top: 29px;
 }
 .filter__box{
@@ -105,4 +106,23 @@
     line-height: 18px;
     display: flex;
     align-items: center;
+}
+
+.search__input:focus{
+    background-color: #E8E8E8;
+}
+
+.search__button:hover{
+    background-color: #000000;
+}
+
+@media (max-width: 480px) {
+
+    .search__icon{
+        display: none;
+    } 
+    
+    .search__input{
+        text-align: left;
+    }
 }

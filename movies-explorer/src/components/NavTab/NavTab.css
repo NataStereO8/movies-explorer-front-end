@@ -1,19 +1,52 @@
 .banner__nav{
     display: flex;
+    flex-direction: row;
     justify-content: space-around;
     height: 36px;
     margin-bottom: 30px;
+    width: 100%;
+    margin: auto;
 }
 
-.menu_banner{
-    margin: 0 -5px;
+.menu__banner{
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    justify-items:center;
+    align-items: center;
+    margin-left: 0;
+    padding: 0;
 }
 
-.menu-item_banner{
+.menu-item__banner{
     background-color: #E8E8E8;
     padding: 10px 13px;
     flex: 1 1 auto;
     margin: 0 5px;
     border-radius: 10px;
     color: #ffffff;
+}
+
+.menu-item__text-banner{
+    border: none;
+    background-color: transparent;
+    font-size: 12px;
+    line-height: 16px;
+    color: white;
+}
+
+@media (max-width: 480px) {
+
+    .banner__nav{
+        margin-bottom: 15px;
+    }
+
+    .menu-item__banner{
+        padding: 5px 10px;
+    }
+
+    .menu-item__text-banner{
+        font-size: 10px;
+    }
+
 }

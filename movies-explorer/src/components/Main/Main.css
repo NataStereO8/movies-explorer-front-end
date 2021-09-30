@@ -13,3 +13,12 @@
     min-height: 1px;
     margin-top: 23px;
 }
+
+@media (max-width:768px) {
+
+    .content{
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+    
+}

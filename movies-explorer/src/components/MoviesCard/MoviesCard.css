@@ -37,12 +37,22 @@
 .film__save-button{
     border: none;
     background-color: transparent;
-    width: 30px;
+    min-width: 30px;
     height: 30px;
     margin: 0;
     padding: 0;
-    /* background-image: url(../movies-explorer-front-end/movies-explorer/src/images/save.svg); */
+    background-image: url(../../images/save.svg);
     margin-right: 14px;
+}
+
+.film__save-button_active{
+    display: none;
+    background-image: url(../../images/save_active.svg);
+}
+
+.film__save-button_delete{
+    display: none;
+    background-image: url(../../images/save_delete.svg);
 }
 
 .film__cover{
@@ -59,4 +69,3 @@
     width: 100%;
     object-fit: cover; 
 }
-

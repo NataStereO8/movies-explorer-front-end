@@ -6,15 +6,15 @@ function NavTab({props}) {
 
     return (
             <div className="banner__nav">
-                <ul className="menu menu_banner">
-                    <li className="menu-item menu-item_banner">
-                        <button className="menu-item__text menu-item__text_footer">О проекте</button>
+                <ul className="menu__banner">
+                    <li className="menu-item__banner">
+                        <button className="menu-item__text-banner">О проекте</button>
                     </li>
-                    <li className="menu-item menu-item_banner">
-                        <button className="menu-item__text menu-item__text_footer">Технологии</button>
+                    <li className="menu-item__banner">
+                        <button className="menu-item__text-banner">Технологии</button>
                     </li>
-                    <li className="menu-item menu-item_banner">
-                        <button className="menu-item__text menu-item__text_footer">Студент</button>
+                    <li className="menu-item__banner">
+                        <button className="menu-item__text-banner">Студент</button>
                     </li>
                 </ul>                    
             </div>

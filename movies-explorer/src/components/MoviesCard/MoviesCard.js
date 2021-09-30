@@ -8,7 +8,7 @@ function MoviesCard({props}) {
             <li className="film">
                 <div className="film__about">
                     <div className="film__info">
-                        <span className="film__name">Дом, который построил Джек</span>
+                        <span className="film__name">Дом, который построил...</span>
                         <span className="film__duration">Бесконечно</span>
                     </div>
                     <button className="film__save-button"></button>

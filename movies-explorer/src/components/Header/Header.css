@@ -196,16 +196,13 @@
 }
 
 
+
+
 @media (max-width: 768px) {
 
-    .menu{
+    .header-menu{
         display: none;
         width: 0;
-    }
-
-    .header-menu{
-        display: flex;
-        position: relative;
     }
 
     .mob-menu__open-button{
@@ -217,7 +214,11 @@
         flex-direction: row;
         flex-wrap: wrap;
         align-content: center;
-        justify-content:flex-start;
+        justify-content:space-between;
         height: 74px;
+    }
+
+    .mob-menu__open-button{
+        display: block;
     }
 }

@@ -11,7 +11,7 @@ function SearchForm({props}) {
             <div className="search">
                 <img className="search__icon" src={searchIcon} alt="иконка поиска"/>
                 <label className="search__label">
-                    <input type="text" className="search__input" id="search__input" placeholder="Фильм" value=""/>
+                    <input type="text" className="search__input" id="search__input" placeholder="Фильм" value="" required/>
                 </label>
                 <button className="search__button">Search</button>
             </div>

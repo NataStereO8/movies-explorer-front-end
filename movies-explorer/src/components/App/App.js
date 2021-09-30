@@ -20,7 +20,7 @@ class App extends React.Component {
         super(props);
         this.state = {
             currentUser: currentUser,
-            loggedIn: false,
+            loggedIn: true,
             email: "",
             isOpenOkToolTip: false,
             isOpenErrorToolTip: false,

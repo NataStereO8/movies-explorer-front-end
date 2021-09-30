@@ -40,12 +40,6 @@
     right: 29px;
     z-index: 2000;
 }
-
-.mob-menu__open-button{
-    border: transparent;
-    background-color: transparent;
-}
-
 .mob-menu__button-text{
     font-size: 14px;
     line-height: 16px;
