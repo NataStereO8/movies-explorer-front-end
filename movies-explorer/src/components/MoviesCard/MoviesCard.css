@@ -46,8 +46,11 @@
 }
 
 .film__save-button_active{
-    display: none;
     background-image: url(../../images/save_active.svg);
+}
+
+.film__save-button_hidden{
+    background-image: url(../../images/save.svg);
 }
 
 .film__save-button_delete{

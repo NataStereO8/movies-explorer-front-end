@@ -64,6 +64,11 @@
 
 
 @media (max-width: 768px) {
+
+    .student{
+        margin-top: 70px;
+    }
+
     .student__information{
         width: 100%;
         display: flex;

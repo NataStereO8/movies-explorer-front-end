@@ -5,7 +5,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 24px;
-    margin-top: 167px;
+    margin-top: 120px;
     margin-bottom: 30px;
 }
 
@@ -16,6 +16,7 @@
     .films-list{
         grid-template-columns: 1fr 1fr;
         gap: 30px;
+        margin-top: 120px;
     }
 }
 
@@ -23,6 +24,7 @@
 
     .films-list{
         grid-template-columns: 1fr;
+        margin-top: 100px;
     }
     
 }
