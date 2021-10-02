@@ -3,7 +3,7 @@ import "../MoviesCard/MoviesCard.css";
 import photo from "../../images/jack.jpg";
 // import { currentUser, CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function MoviesCard({props}) {
+function MoviesCard({props, isSaved}) {
 
     const [isLiked, setIsLiked] = React.useState(false);
 
@@ -12,6 +12,7 @@ function MoviesCard({props}) {
     }
 
     const cardLikeIconClassName = (`film__save-button ${isLiked ? 'film__save-button_active' : 'film__save-button_hidden'}`);
+    const cardSavedIconClassName = (`film__save-button film__save-button_delete`);
 
     return (
             <li className="film">
@@ -20,7 +21,7 @@ function MoviesCard({props}) {
                         <span className="film__name">Дом, который построил...</span>
                         <span className="film__duration">Бесконечно</span>
                     </div>
-                    <button className={cardLikeIconClassName} onClick={handleLiked}></button>
+                    <button className={isSaved ? cardSavedIconClassName : cardLikeIconClassName} onClick={handleLiked}></button>
                 </div>
                 <div className="film__cover">
                     <img src={photo} alt="постер фильма" className="film__photo"/>

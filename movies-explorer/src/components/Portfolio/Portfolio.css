@@ -42,3 +42,15 @@
     background-color: #E8E8E8;
     height: 1px;
 }
+
+.portfolio-item__icon{
+    margin-left: 15px;
+}
+
+@media (max-width:480px) {
+    .portfolio-item__text{
+        font-size: 18px;
+        line-height: 28px;
+    }
+
+}

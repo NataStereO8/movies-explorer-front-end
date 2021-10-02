@@ -2,13 +2,13 @@ import React from 'react';
 import "../MoviesCardList/MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 
-function MoviesCardList({props}) {
+function MoviesCardList({props, isSaved}) {
 
     return (
         <ul className="films-list">
-            <MoviesCard/>
-            <MoviesCard/>
-            <MoviesCard/>
+            <MoviesCard isSaved={isSaved}/>
+            <MoviesCard isSaved={isSaved}/>
+            <MoviesCard isSaved={isSaved}/>
         </ul>
     );
 }

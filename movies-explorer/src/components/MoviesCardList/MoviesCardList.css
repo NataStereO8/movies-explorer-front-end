@@ -11,7 +11,7 @@
 
 
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
     .films-list{
         grid-template-columns: 1fr 1fr;
@@ -20,7 +20,7 @@
     }
 }
 
-@media (max-width: 414px) {
+@media (max-width: 640px) {
 
     .films-list{
         grid-template-columns: 1fr;

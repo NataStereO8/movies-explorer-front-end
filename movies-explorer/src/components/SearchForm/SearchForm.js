@@ -4,14 +4,14 @@ import "../Main/Main.css";
 import searchIcon from "../../images/search-icon.svg";
 
 
-function SearchForm({props}) {
+function SearchForm({props, film, handleChangeFilm}) {
 
     return (
         <section className="filters">
             <div className="search">
                 <img className="search__icon" src={searchIcon} alt="иконка поиска"/>
                 <label className="search__label">
-                    <input type="text" className="search__input" id="search__input" placeholder="Фильм" value="" required/>
+                    <input type="text" className="search__input" id="search__input" placeholder="Фильм" value={film} onChange={handleChangeFilm} required/>
                 </label>
                 <button className="search__button">Search</button>
             </div>

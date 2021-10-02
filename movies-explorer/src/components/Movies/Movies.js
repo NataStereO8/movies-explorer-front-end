@@ -9,13 +9,19 @@ import Footer from "../Footer/Footer";
 
 function Movies({loggedIn, handleLogout}) {
 
+    const [film, setFilm] = React.useState();
+
+    function handleChangeFilm(event) {
+        setFilm(event.target.value);
+    }
+
     return (
         <div className="content">
             <Header
                     loggedIn={loggedIn}
                     handleLogout={handleLogout}
                 />
-            <SearchForm/>
+            <SearchForm film={film || ''} handleChangeFilm={handleChangeFilm}/>
             <Preloader/>
             <MoviesCardList/>
             <section className="pagination">

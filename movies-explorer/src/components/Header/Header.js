@@ -1,3 +1,4 @@
+import React from 'react';
 import logo from '../../images/logo.svg';
 import "../Header/Header.css";
 import userIcon from "../../images/user.svg";
@@ -7,7 +8,11 @@ import MobMenu from "../MobMenu/MobMenu";
 
 function Header(props) {
 
-    // const handleLogout = props.handleLogout;
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
+    function handleMobileMenuOpen() {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    }
 
     return (
         <header className="header">
@@ -25,14 +30,14 @@ function Header(props) {
                         </li>
                         <li className="menu-item menu-item_header menu-item_header_registrated">
                             <Link className="menu-item__text menu-item__text_header" to="/profile">Аккаунт</Link>
-                            <img src={userIcon} class="menu-item__icon" alt="иконка аккаунта"/>
+                            <img src={userIcon} className="menu-item__icon" alt="иконка аккаунта"/>
                         </li>
                     </ul>
                 </div>
-                    <button className="mob-menu__open-button">
+                    <button className="mob-menu__open-button" onClick={handleMobileMenuOpen}>
                         <img className="mob-menu__open-icon" src={openIcon} alt="Иконка меню"/>
                     </button>
-                    <MobMenu/>
+                    <MobMenu isMobileMenuOpen={isMobileMenuOpen} handleMobileMenuOpen={handleMobileMenuOpen}/>
                 </div>
                 ) : (
                 <div className="header-menu__unregistered">

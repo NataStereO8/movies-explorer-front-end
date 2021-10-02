@@ -54,7 +54,6 @@
 }
 
 .film__save-button_delete{
-    display: none;
     background-image: url(../../images/save_delete.svg);
 }
 

@@ -7,6 +7,8 @@ import Footer from "../Footer/Footer";
 
 function SavedMovies({loggedIn, handleLogout}) {
 
+    const isSaved = true;
+
     return (
         <div className="content">
             <Header
@@ -14,7 +16,7 @@ function SavedMovies({loggedIn, handleLogout}) {
                     handleLogout={handleLogout}
                 />
             <SearchForm/>
-            <MoviesCardList/>
+            <MoviesCardList isSaved={isSaved}/>
             <Footer/> 
         </div>
     );
