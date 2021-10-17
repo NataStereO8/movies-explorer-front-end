@@ -1,40 +1,53 @@
-.login{
-    max-width: 100vw;
-    max-height: 100vh;
+
+.editPopup{
     width: 100%;
+    height: 100vh;
+    display: none;
+    z-index: 1000;
+    opacity: 1;
+    position: absolute;
+    background-color: #ffffff;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.editPopup_open{
+    display: flex;
+}
+
+
+.editPopup__container{
+    max-height: 100vh;
     height: 100%;
-    position: relative;
-}
-
-.login__countainer{
-    max-width: 400px;
-    display: flex;
-    margin: auto;
-    flex-direction: column;
-}
-
-.form__header{
-    max-width: 410px;
+    min-width: 400px;
     display: flex;
     flex-direction: column;
-    margin-top: 70px;
-    margin-bottom: 40px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
 }
 
-.logo_profile{
-    max-width: 38px;
+.editPopup__close-button{
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    z-index: 2000;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    top: 70px;
 }
 
-.login__title{
-    font-size: 24px;
-    line-height: 29px;
-    text-align: center;
-}
-
-.login__title_form{
-    text-align: left;
-    margin-top: 40px;
-    margin-bottom: 0;
+.form{
+    background-color: #ffffff;
+    min-width: 400;
+    width: 100%;
 }
 
 .form__log{
@@ -42,6 +55,11 @@
     display: flex;
     flex-direction: column;
     margin: auto;
+}
+
+.form__label{
+    display: flex;
+    flex-direction: column;
 }
 
 .form__input{

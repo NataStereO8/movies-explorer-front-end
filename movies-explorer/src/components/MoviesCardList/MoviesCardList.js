@@ -1,15 +1,36 @@
-import React from 'react';
 import "../MoviesCardList/MoviesCardList.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
+import NoResults from "../NoResults/NoResults";
+import Preloader from "../Preloader/Preloader";
 
-function MoviesCardList({props, isSaved}) {
-
+function MoviesCardList({
+    isLoading,
+    moviesFiltered,
+    likedMovies,
+    cardLikeButtonClicked,
+    cardDislikeButtonClicked,
+}) {
     return (
-        <ul className="films-list">
-            <MoviesCard isSaved={isSaved}/>
-            <MoviesCard isSaved={isSaved}/>
-            <MoviesCard isSaved={isSaved}/>
-        </ul>
+        <section className="MoviesList">
+            {isLoading && <Preloader />}
+            {moviesFiltered.length > 0 ? (
+                <ul className="films-list">
+                    {moviesFiltered.map((movie) => {
+                        return (
+                            <MoviesCard
+                                key={movie._id || movie.id}
+                                movie={movie}
+                                likedMovies={likedMovies}
+                                cardLikeButtonClicked={cardLikeButtonClicked}
+                                cardDislikeButtonClicked={cardDislikeButtonClicked}
+                            />
+                        );
+                    })}
+                </ul>
+            ) : (
+                <NoResults />
+            )}
+        </section>
     );
 }
 

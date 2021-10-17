@@ -16,14 +16,16 @@ function Header(props) {
 
     return (
         <header className="header">
+            <Link to="/">
             <img src={logo} alt="Лого в шапке" className="logo_header"/>
+            </Link>
         
             {props.loggedIn ? (
                 <div>
                     <div className="header-menu"> 
                     <ul className="menu menu_header">
                         <li className="menu-item menu-item_header">
-                            <Link className="menu-item__text menu-item__text_header" to="/movies">Фильм</Link>
+                            <Link className="menu-item__text menu-item__text_header" to="/movies">Фильмы</Link>
                         </li>
                         <li className="menu-item menu-item_header">
                             <Link className="menu-item__text menu-item__text_header" to="/saved-movies">Сохранённые фильмы</Link>
@@ -43,10 +45,10 @@ function Header(props) {
                 <div className="header-menu__unregistered">
                     <ul className="menu menu_header">
                         <li className="menu-item menu-item_header">
-                            <Link className="menu-item__text menu-item__text_header" to="/sign-up">Регистрация</Link>
+                            <Link className="menu-item__text menu-item__text_header" to="/signup">Регистрация</Link>
                         </li>
                         <li className="menu-item menu-item_header menu-item_unregistered">
-                            <Link className="menu-item__text menu-item__text_header" to="/sign-in">Войти</Link>
+                            <Link className="menu-item__text menu-item__text_header" to="/signin">Войти</Link>
                         </li>
                     </ul>
                 </div>)}            

@@ -1,32 +1,69 @@
-import React from 'react';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import "../MoviesCard/MoviesCard.css";
-import photo from "../../images/jack.jpg";
-// import { currentUser, CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-function MoviesCard({props, isSaved}) {
+function MoviesCard({
+    likedMovies,
+    movie,
+    cardLikeButtonClicked,
+    cardDislikeButtonClicked
+}) {
 
-    const [isLiked, setIsLiked] = React.useState(false);
+    const location = useLocation();
 
-    function handleLiked() {
-        setIsLiked(!isLiked);
+    const isSaved =
+        location.pathname === "/movies"
+            ? likedMovies.some((i) => i._id === movie.movieId)
+            : true;
+
+
+    function handleLikeClick() {
+        if (!isSaved) {
+            return cardLikeButtonClicked(movie);
+        } else
+            { return cardDislikeButtonClicked(movie)};
     }
 
-    const cardLikeIconClassName = (`film__save-button ${isLiked ? 'film__save-button_active' : 'film__save-button_hidden'}`);
-    const cardSavedIconClassName = (`film__save-button film__save-button_delete`);
+    function decoratingDuration(duration) {
+        const hours = Math.floor(duration / 60);
+        const minutes = duration % 60;
+        const time = hours + "ч " + minutes + "м";
+        return time;
+    }
+
+    function cardButtonClassName() {
+        if (!isSaved && location.pathname === '/movies') {
+            return 'film__save-button_hidden';
+        } if (isSaved && location.pathname === '/movies') {
+            return 'film__save-button_active';
+        }
+        return 'film__save-button_delete';
+    }
 
     return (
-            <li className="film">
-                <div className="film__about">
-                    <div className="film__info">
-                        <span className="film__name">Дом, который построил...</span>
-                        <span className="film__duration">Бесконечно</span>
-                    </div>
-                    <button className={isSaved ? cardSavedIconClassName : cardLikeIconClassName} onClick={handleLiked}></button>
+        <li className="film">
+            <div className="film__about">
+                <div className="film__info">
+                    <span className="film__name">{movie.nameRU}</span>
+                    <span className="film__duration">
+                        {decoratingDuration(movie.duration)}
+                    </span>
                 </div>
+                <button
+                    className={`film__save-button ${cardButtonClassName()}`}
+                    onClick={handleLikeClick}
+                ></button>
+            </div>
+            <Link to={{ pathname: movie.trailerLink }} target="_blank">
                 <div className="film__cover">
-                    <img src={photo} alt="постер фильма" className="film__photo"/>
+                    <img
+                        src={`https://api.nomoreparties.co${movie.image.url}`}
+                        alt="постер фильма"
+                        className="film__photo"
+                    />
                 </div>
-            </li>
+            </Link>
+        </li>
     );
 }
 

@@ -26,6 +26,12 @@
     line-height: 18px;
     max-width: 280px;
     margin-bottom: 9px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 18px;
 }
 
 .film__duration{

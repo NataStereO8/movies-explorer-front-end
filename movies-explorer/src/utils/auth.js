@@ -1,12 +1,14 @@
-export const BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies';
+import {
+    BASE_URL,
+} from '../utils/const';
 
-export const register = (email, password) => {
+export const register = (name, email, password) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ name, email, password })
     })
 };
 
