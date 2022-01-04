@@ -1,0 +1,77 @@
+.content{
+    margin-left: 70px;
+    margin-right: 70px;
+    position: relative;
+}
+
+.profile__title{
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+}
+
+.profile__title_account{
+    margin-top: 74px;
+    margin-bottom: 108px;
+}
+
+.about__info{
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 410px;
+}
+
+.about__text{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 11px;
+    line-height: 14px;
+}
+
+.about__line{
+    background-color: #E8E8E8;
+    height: 1px;
+}
+
+.buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    position: relative;
+}
+
+.textButton{
+    font-size: 14px;
+    line-height: 17px;
+    background-color: transparent;
+    border: none;
+    margin: 0;
+}
+
+.textButton_pink{
+    color: #FF3055;
+    position: absolute;
+    bottom: 70px;
+    width: 100%;
+}
+
+
+.textButton_black{
+    color: #000000;
+    position: absolute;
+    bottom: 102px;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+
+    .content {
+        margin-left: 30px;
+        margin-right: 30px;
+    }
+}

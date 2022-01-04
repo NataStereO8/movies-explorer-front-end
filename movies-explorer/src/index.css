@@ -1,0 +1,18 @@
+@import url(./vendor/normalize.css);
+@import url(./fonts/fonts.css);
+
+body, html{
+    background-color: #ffffff;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+}
+
+

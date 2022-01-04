@@ -1,0 +1,97 @@
+.student{
+    margin-top: 110px;
+}
+
+.student__info{
+    margin-top: 66px;
+    min-height: 327px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.student__information{
+    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.student__name{
+    font-size: 50px;
+}
+
+.student__experience{
+    font-size: 18px;
+    margin-top: 18px;
+}
+
+.student__text{
+    font-size: 14px;
+    line-height: 22px;
+    margin-top: 26px;
+    max-width: 600px;
+}
+
+.menu-item__text{
+    text-decoration: none;
+    color: #000000;
+}
+
+.student__photo{
+    position: relative;
+    width: 270px;
+    margin: 0;
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: 30px;
+}
+
+.student__image{
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;  
+}
+
+.menu_student{
+    max-width: 132px;
+    margin: 0 -15px;
+}
+
+
+@media (max-width: 768px) {
+
+    .student{
+        margin-top: 70px;
+    }
+
+    .student__information{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .student__info{
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: space-between;
+    }
+
+    .student__photo{
+        width: 100%;
+        margin: 0;
+        background-color: #ffffff;
+        border-radius: 10px;
+        position: relative;
+        height: 352px;
+        margin-bottom: 40px;
+    }
+}
