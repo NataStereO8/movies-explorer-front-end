@@ -13,9 +13,9 @@ function Movies({
     handleChangeIsShort,
     isShort,
     searchString,
-    searchStringSubmit,
     handleSearchSubmit,
     moviesFiltered,
+    cardsToShow,
     cardLikeButtonClicked,
     cardDislikeButtonClicked,
     visibleCount,
@@ -36,10 +36,11 @@ function Movies({
                 
             <MoviesCardList
                 moviesFiltered={moviesFiltered}
+                cardsToShow={cardsToShow} 
                 isLoading={isLoading}
                 likedMovies={likedMovies}
                 cardLikeButtonClicked={cardLikeButtonClicked}
-                cardDisLikeButtonClicked={cardDislikeButtonClicked}
+                cardButtonClicked={cardDislikeButtonClicked}
             />
             {visibleCount < moviesFiltered.length && (
                 <section className="pagination">

@@ -1,4 +1,5 @@
 import React from "react";
+import "../Main/Main.css";
 import "../SavedMovies/SavedMovies.css";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
@@ -10,19 +11,21 @@ function SavedMovies({
     isLoading,
     handleChangeSearchString,
     handleChangeIsShort,
+    handleSearchSubmit,
     isShort,
     searchString,
-    searchStringSubmit,
-    handleSearchSubmit,
-    visibleCount,
+    moviesFiltered,
+    likedMovies,
+    cardLikeButtonClicked,
     cardDeleteButtonClicked,
-    getMoreCount, 
-    moviesFiltered
+    isGetMoviesFetchError,
+    infoToolTipText,
 }) {
-
     return (
         <div className="content">
-            <Header loggedIn={loggedIn} />
+            <Header
+                loggedIn={loggedIn}
+            />
             <SearchForm
                 searchString={searchString || ""}
                 handleChangeSearchString={handleChangeSearchString}
@@ -32,12 +35,17 @@ function SavedMovies({
             />
             <MoviesCardList
                 moviesFiltered={moviesFiltered}
+                cardsToShow={likedMovies} 
                 isLoading={isLoading}
-                cardDeleteButtonClicked={cardDeleteButtonClicked}
+                cardLikeButtonClicked={cardLikeButtonClicked}
+                cardButtonClicked={cardDeleteButtonClicked}
             />
+
+            {isGetMoviesFetchError && <p>{infoToolTipText}</p>}
             <Footer />
         </div>
     );
 }
+
 
 export default SavedMovies;

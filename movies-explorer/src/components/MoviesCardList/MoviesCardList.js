@@ -6,23 +6,25 @@ import Preloader from "../Preloader/Preloader";
 function MoviesCardList({
     isLoading,
     moviesFiltered,
+    cardsToShow,
     likedMovies,
     cardLikeButtonClicked,
-    cardDislikeButtonClicked,
+    cardButtonClicked
 }) {
+
     return (
-        <section className="MoviesList">
+        <section className="moviesList">
             {isLoading && <Preloader />}
             {moviesFiltered.length > 0 ? (
                 <ul className="films-list">
-                    {moviesFiltered.map((movie) => {
+                    {cardsToShow.map((movie) => {
                         return (
                             <MoviesCard
                                 key={movie._id || movie.id}
                                 movie={movie}
                                 likedMovies={likedMovies}
                                 cardLikeButtonClicked={cardLikeButtonClicked}
-                                cardDislikeButtonClicked={cardDislikeButtonClicked}
+                                cardButtonClicked={cardButtonClicked}                              
                             />
                         );
                     })}

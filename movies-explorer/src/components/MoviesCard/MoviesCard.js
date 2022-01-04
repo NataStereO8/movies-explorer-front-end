@@ -6,22 +6,21 @@ function MoviesCard({
     likedMovies,
     movie,
     cardLikeButtonClicked,
-    cardDislikeButtonClicked
+    cardButtonClicked,
 }) {
 
     const location = useLocation();
 
     const isSaved =
-        location.pathname === "/movies"
-            ? likedMovies.some((i) => i._id === movie.movieId)
-            : true;
+        location.pathname === "/movies" ? likedMovies.some((i) => i.movieId === movie.i) : true;
 
 
     function handleLikeClick() {
         if (!isSaved) {
             return cardLikeButtonClicked(movie);
-        } else
-            { return cardDislikeButtonClicked(movie)};
+        } else if (isSaved) {
+            return cardButtonClicked(movie);
+        }
     }
 
     function decoratingDuration(duration) {
@@ -34,14 +33,18 @@ function MoviesCard({
     function cardButtonClassName() {
         if (!isSaved && location.pathname === '/movies') {
             return 'film__save-button_hidden';
-        } if (isSaved && location.pathname === '/movies') {
+        } else if (isSaved && location.pathname === '/movies') {
             return 'film__save-button_active';
         }
         return 'film__save-button_delete';
     }
 
+    // console.log(cardButtonClassName());
+    // console.log(movie);
+
+
     return (
-        <li className="film">
+        <li className="film" key={movie.movieId}>
             <div className="film__about">
                 <div className="film__info">
                     <span className="film__name">{movie.nameRU}</span>
@@ -57,8 +60,8 @@ function MoviesCard({
             <Link to={{ pathname: movie.trailerLink }} target="_blank">
                 <div className="film__cover">
                     <img
-                        src={`https://api.nomoreparties.co${movie.image.url}`}
-                        alt="постер фильма"
+                        src={`${location.pathname === '/movies' ? 'https://api.nomoreparties.co' : ''}${location.pathname === '/movies' ? movie.image.url : movie.image}`}
+                        alt={`Постер фильма ${movie.nameRU}`}
                         className="film__photo"
                     />
                 </div>

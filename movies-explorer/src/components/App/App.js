@@ -48,10 +48,13 @@ function App() {
     const [isShort, setIsShort] = React.useState(false);
     const [moviesFiltered, setMoviesFiltered] = React.useState([]);
     const [searchString, setSearchString] = React.useState("");
+    const [isMoreButton, setIsMoreButton] = React.useState(false);
     const history = useHistory();
 
 
     //проверки и обновление ползователя, регистрация и авторизация
+    // _________________________________________________________________________________________________________________
+
     React.useEffect(() => {
         checkToken();
         getCurrentUser();
@@ -65,23 +68,6 @@ function App() {
             })
             .catch((err) => alert(err));
     }
-
-    // React.useEffect(() => {
-    //     if (getCurrentUser()) {
-    //         checkToken()
-    //             .then((res) => {
-    //                 setCurrentUser(res);
-    //                 setLoggedIn(true);
-    //             })
-    //             .catch((res) => {
-    //                 setLoggedIn(false);
-    //                 console.log(`Ошибка при проверке токена ${res}`);
-    //             });
-    //     } else {
-    //         setLoggedIn(false);
-    //         console.log('Пользователь не авторизовался');
-    //     }
-    // }, []);
 
     function checkToken() {
         const token = localStorage.getItem("token");
@@ -170,9 +156,12 @@ function App() {
     function closeTooltip() {
         setIsOpenToolTip(false);
         setToolTipInfo("");
-    }
+    };
+
 
     //работа с фильмами
+    // _________________________________________________________________________________________________________________
+
     React.useEffect(() => {
         getMovies()
             .then((res) => {
@@ -220,8 +209,9 @@ function App() {
 
     function cardLikeButtonClicked(movie) {
         saveFilm(prepareMovieToSave(movie))
-            .then((likedMovie) => {
-                setLikedMovies([...likedMovies, likedMovie]);
+            .then((addedMovie) => {
+                setLikedMovies([...likedMovies, addedMovie.data]);
+                console.log(addedMovie);
             })
             .catch((e) => {
                 console.log(e);
@@ -231,7 +221,8 @@ function App() {
     }
 
     function cardDislikeButtonClicked(movie) {
-        const id = likedMovies.find((i) => i.movieId === movie.id)._id;
+        const id = likedMovies.find((i) => i.id === movie.movieId)._id;
+        console.log(id);
         deleteFilm(id)
             .then(() => {
                 const filteredLikedMovies = likedMovies.filter((i) => i._id !== id);
@@ -258,14 +249,15 @@ function App() {
     }
 
     //правила отрисовки карточек 
+    // _________________________________________________________________________________________________________________
 
     function updateWidth() {
         setPageWidth(document.documentElement.scrollWidth);
     }
 
-    // function movieSlicer(arr) {
-    //     return arr.slice(0, visibleCount);
-    // }
+    function movieSlicer(arr) {
+        return arr.slice(0, visibleCount);
+    }
 
     React.useEffect(() => {
         updateWidth();
@@ -277,15 +269,15 @@ function App() {
     React.useEffect(() => {
         if (pageWidth <= 480) {
             setVisibleCount(5);
-        } else if (pageWidth <= 768) {
+        } else if (pageWidth <= 1024) {
             setVisibleCount(8);
         } else {
             setVisibleCount(12);
         }
-    }, [pageWidth]);
+    }, [pageWidth, moviesFiltered]);
 
     function getMoreCount(e) {
-        if (pageWidth <= 768) {
+        if (pageWidth <= 480) {
             setVisibleCount(visibleCount + 5);
         } else if (pageWidth <= 1024) {
             setVisibleCount(visibleCount + 2);
@@ -294,7 +286,26 @@ function App() {
         }
     }
 
+    React.useEffect(() => {
+        const savedMoviesObject = JSON.parse(window.localStorage.getItem(`movies-${currentUser.email}`));
+        if (savedMoviesObject) {
+            setMovies(savedMoviesObject.movies);
+            setSearchString(savedMoviesObject.searchPhrase);
+        }
+    }, [currentUser]);
+
+    const cardsToShow = movieSlicer(moviesFiltered);
+
+    React.useEffect(() => {
+        if (visibleCount < moviesFiltered.length) {
+            setIsMoreButton(true);
+        } else {
+            setIsMoreButton(false);
+        }
+    }, [cardsToShow, visibleCount, moviesFiltered]);
+
     //фильтрация
+    // _________________________________________________________________________________________________________________
 
     React.useEffect(() => {
         if (searchStringSubmit && isShort) {
@@ -315,6 +326,11 @@ function App() {
         // eslint-disable-next-line
     }, [searchStringSubmit]);
 
+    function handleSearchSubmit(event) {
+        event.preventDefault();
+        setSearchStringSubmit(searchString);
+    }
+
     function handleChangeSearchString(event) {
         setSearchString(event.target.value);
     }
@@ -322,13 +338,6 @@ function App() {
     function handleChangeIsShort(event) {
         setIsShort(event.target.checked);
     }
-
-    function handleSearchSubmit(event) {
-        event.preventDefault();
-        setSearchStringSubmit(searchString);
-    }
-
-
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -351,8 +360,7 @@ function App() {
                 <Route exact path="/">
                     <Main loggedIn={loggedIn} />
                 </Route>
-                <ProtectedRoute
-                    path="/saved-movies"
+                <ProtectedRoute path="/saved-movies"
                     loggedIn={loggedIn}
                     component={SavedMovies}
                     setCurrentUser={currentUser}
@@ -361,15 +369,17 @@ function App() {
                     handleChangeIsShort={handleChangeIsShort}
                     handleSearchSubmit={handleSearchSubmit}
                     isShort={isShort}
-                    moviesFiltered={moviesFiltered}
                     searchString={searchString}
                     searchStringSubmit={searchStringSubmit}
+                    moviesFiltered={moviesFiltered}
+                    cardsToShow={cardsToShow} 
+                    cardLikeButtonClicked={cardLikeButtonClicked}
                     cardDeleteButtonClicked={cardDeleteButtonClicked}
                     visibleCount={visibleCount}
                     getMoreCount={getMoreCount}
+                    likedMovies={likedMovies}
                 />
-                <ProtectedRoute
-                    path="/movies"
+                <ProtectedRoute path="/movies"
                     loggedIn={loggedIn}
                     component={Movies}
                     setCurrentUser={currentUser}
@@ -381,14 +391,14 @@ function App() {
                     searchString={searchString}
                     searchStringSubmit={searchStringSubmit}
                     moviesFiltered={moviesFiltered}
+                    cardsToShow={cardsToShow}
                     cardLikeButtonClicked={cardLikeButtonClicked}
                     cardDislikeButtonClicked={cardDislikeButtonClicked}
                     visibleCount={visibleCount}
                     getMoreCount={getMoreCount}
                     likedMovies={likedMovies}
                 />
-                <ProtectedRoute
-                    path="/profile"
+                <ProtectedRoute path="/profile"
                     loggedIn={loggedIn}
                     component={Profile}
                     setCurrentUser={currentUser}
@@ -404,164 +414,3 @@ function App() {
 }
 
 export default withRouter(App);
-
-// class App extends React.Component {
-//     constructor(props) {
-//         super(props);
-//         this.state = {
-//             currentUser: currentUser,
-//             loggedIn: true,
-//             isOpenToolTip: false,
-//             toolTipInfo: {},
-//         };
-//         this.handleLogin = this.handleLogin.bind(this);
-//         this.handleLogout = this.handleLogout.bind(this);
-//         this.handleRegister = this.handleRegister.bind(this);
-//         this.setCurrentUser = this.setCurrentUser.bind(this);
-//         this.successRegister = this.successRegister.bind(this);
-//     }
-
-    // componentDidMount() {
-    //     this.checkToken();
-    //     this.getCurrentUser();
-    // }
-
-//     getCurrentUser() {
-//         api
-//             .getPersonalInfo()
-//             .then((res) => {
-//                 this.setState({ currentUser: res });
-//             })
-//             .catch((err) => alert(err));
-//     }
-
-//     checkToken() {
-//         const token = localStorage.getItem("token");
-//         auth
-//             .getUserInfo(token)
-//             .then((res) => {
-//                 if (res.ok) {
-//                     this.setState({ loggedIn: true });
-//                     return res.json();
-//                 } else {
-//                     throw new Error();
-//                 }
-//             })
-//             // .then((res, event) => {
-//             //     this.props.history.push("/movies");
-//             // })
-//             .catch(() => { });
-//     }
-
-//     handleRegister(name, email, password) {
-//         auth
-//             .register(name, email, password)
-//             .then((res) => {
-//                 if (res.ok) {
-//                     this.setState({ isOpenOkToolTip: true });
-//                     this.successRegister();
-//                 } else {
-//                     this.setState({ isOpenErrorToolTip: true });
-//                     console.log(this.state.isOpenErrorToolTip);
-//                 }
-//             })
-//             .catch((e) => console.log(e));
-//     }
-
-//     successRegister() {
-//         this.props.history.push("/signin");
-//     }
-
-//     handleLogin(email, password) {
-//         auth
-//             .login(email, password)
-//             .then((res) => {
-//                 if (res.ok) {
-//                     return res.json();
-//                 } else {
-//                     throw new Error();
-//                 }
-//             })
-//             .then((data) => {
-//                 localStorage.setItem("token", data.token);
-//                 this.setState({
-//                     loggedIn: true,
-//                 });
-//                 this.props.history.push("/movies");
-//             })
-//             .catch(() => {
-//                 this.setState({ isOpenErrorToolTip: true });
-//                 console.log(this.state.isOpenErrorToolTip);
-//             });
-//     }
-
-//     handleLogout() {
-//         localStorage.removeItem("token");
-//         this.setState({ loggedIn: false });
-//         this.props.history.push("/signin");
-//     }
-
-//     closeTooltip() {
-//         this.setState({ isOpenToolTip: false, toolTipInfo: {} });
-//     }
-
-//     openToolTip(text, icon, iconName) {
-//         this.setState({
-//             isOpenToolTip: true,
-//             toolTipInfo: { text, icon, iconName },
-//         });
-//     }
-
-//     setCurrentUser(currentUser) {
-//         this.setState({ currentUser });
-//     }
-
-    //     return (
-    //         <CurrentUserContext.Provider value={this.state.currentUser}>
-    //             <Switch>
-    //                 <Route path="/signup">
-    //                     <Register handleRegister={this.handleRegister} />
-    //                 </Route>
-    //                 <Route path="/signin">
-    //                     <Login
-    //                         loggedIn={this.state.loggedIn}
-    //                         handleLogin={this.handleLogin}
-    //                     />
-    //                 </Route>
-    //                 <Route exact path="/">
-    //                     <Main loggedIn={this.state.loggedIn} />
-    //                 </Route>
-    //                 <ProtectedRoute
-    //                     path="/saved-movies"
-    //                     loggedIn={this.state.loggedIn}
-    //                     component={SavedMovies}
-    //                     setCurrentUser={this.setCurrentUser}
-    //                 />
-    //                 <ProtectedRoute
-    //                     path="/movies"
-    //                     loggedIn={this.state.loggedIn}
-    //                     component={Movies}
-    //                     setCurrentUser={this.setCurrentUser}
-    //                 />
-    //                 <ProtectedRoute
-    //                     path="/profile"
-    //                     loggedIn={this.state.loggedIn}
-    //                     component={Profile}
-    //                     setCurrentUser={this.setCurrentUser}
-    //                     handleLogout={this.handleLogout}
-    //                 />
-    //                 <Route path="*">
-    //                     <Error />
-    //                 </Route>
-    //             </Switch>
-    //             <InfoToolTip
-    //                 icon={this.state.toolTipInfo.icon}
-    //                 iconName={this.state.toolTipInfo.iconName}
-    //                 text={this.state.toolTipInfo.text}
-    //                 isOpen={this.state.isOpenErrorToolTip}
-    //                 onClose={this.closeTooltip}
-    //             />
-    //         </CurrentUserContext.Provider>
-    //     );
-    // }
-
