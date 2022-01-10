@@ -66,9 +66,8 @@ class Api {
 }
 
 const config = {
-    url: "http://cinemaholic.nomoredomains.work",
-    headers: {"Content-Type" : "application/json" 
-}
+    url: "http://api.cinemaholic.nomoredomains.work",
+    headers: {"Content-Type" : "application/json"}
     // authorization: 'd4a20ab5-6a24-4061-8e1d-6f5e8bc9d229'
 };
 
