@@ -48,6 +48,7 @@ function App() {
     const [isShort, setIsShort] = React.useState(false);
     const [moviesFiltered, setMoviesFiltered] = React.useState([]);
     const [searchString, setSearchString] = React.useState("");
+            // eslint-disable-next-line
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const history = useHistory();
 
@@ -55,19 +56,29 @@ function App() {
     //проверки и обновление ползователя, регистрация и авторизация
     // _________________________________________________________________________________________________________________
 
+    // React.useEffect(() => {
+    //     checkToken();
+    //     getCurrentUser();
+    //     // eslint-disable-next-line
+    // }, [])
+
     React.useEffect(() => {
         checkToken();
-        getCurrentUser();
-        // eslint-disable-next-line
-    }, [])
-
-    function getCurrentUser() {
         getPersonalInfo()
-            .then((res) => {
-                setCurrentUser(res);
+            .then((userData) => {
+                setCurrentUser(userData);
             })
             .catch((err) => alert(err));
-    }
+                    // eslint-disable-next-line
+    }, [loggedIn]);
+
+    // function getCurrentUser() {
+    //     getPersonalInfo()
+    //         .then((res) => {
+    //             setCurrentUser(res);
+    //         })
+    //         .catch((err) => alert(err));
+    // }
 
     function checkToken() {
         const token = localStorage.getItem("token");
@@ -98,7 +109,6 @@ function App() {
                     setToolTipIcon(GoodIcon);
                 } else {
                     setIsOpenToolTip(true);
-                    console.log(res);
                     setToolTipInfo(registerErrorMessage);
                     setToolTipIcon(BadIcon);
                 }
@@ -166,6 +176,7 @@ function App() {
         getMovies()
             .then((res) => {
                 setMovies(res);
+                setIsLoading(true);
             })
             .then(() => {
                 setIsLoading(false);
@@ -210,8 +221,10 @@ function App() {
     function cardLikeButtonClicked(movie) {
         saveFilm(prepareMovieToSave(movie))
             .then((addedMovie) => {
+                // console.log(likedMovies);
                 setLikedMovies([...likedMovies, addedMovie.data]);
-                console.log(addedMovie);
+                // console.log(addedMovie.data);
+                // console.log(likedMovies);
             })
             .catch((e) => {
                 console.log(e);
@@ -221,11 +234,14 @@ function App() {
     }
 
     function cardDislikeButtonClicked(movie) {
-        const id = likedMovies.find((i) => i.id === movie.movieId)._id;
-        console.log(id);
+        // console.log(movie.id);
+        const id = likedMovies.find((i) => i.movieId === movie.id)._id;
+        // console.log(id);
+        // console.log(likedMovies);
         deleteFilm(id)
             .then(() => {
                 const filteredLikedMovies = likedMovies.filter((i) => i._id !== id);
+                console.log(filteredLikedMovies[0]);
                 setLikedMovies(filteredLikedMovies);
             })
             .catch((e) => {
@@ -239,6 +255,7 @@ function App() {
         deleteFilm(movie._id)
             .then(() => {
                 const filteredLikedMovies = likedMovies.filter((i) => i._id !== movie._id);
+                console.log(filteredLikedMovies);
                 setLikedMovies(filteredLikedMovies);
             })
             .catch((e) => {
@@ -365,13 +382,6 @@ function App() {
                     component={SavedMovies}
                     setCurrentUser={currentUser}
                     isLoading={isLoading}
-                    handleChangeSearchString={handleChangeSearchString}
-                    handleChangeIsShort={handleChangeIsShort}
-                    handleSearchSubmit={handleSearchSubmit}
-                    isShort={isShort}
-                    searchString={searchString}
-                    searchStringSubmit={searchStringSubmit}
-                    moviesFiltered={moviesFiltered}
                     cardsToShow={cardsToShow} 
                     cardLikeButtonClicked={cardLikeButtonClicked}
                     cardDeleteButtonClicked={cardDeleteButtonClicked}

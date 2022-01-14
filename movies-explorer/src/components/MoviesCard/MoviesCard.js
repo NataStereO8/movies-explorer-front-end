@@ -13,7 +13,8 @@ function MoviesCard({
 
     const isSaved =
         location.pathname === "/movies" ? likedMovies.some((i) => i.movieId === movie.id) : true;
-
+    
+    // console.log(isSaved);
 
     function handleLikeClick() {
         if (!isSaved) {

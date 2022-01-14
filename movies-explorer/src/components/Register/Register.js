@@ -35,7 +35,9 @@ function Register(props) {
         <section className="registration">
             <div className="registration__countainer">
                 <div className="form__header">
-                    <img src={logo} alt="Лого в шапке" className="logo logo_profile" />
+                    <Link to="/">
+                        <img src={logo} alt="Лого в шапке" className="logo logo_profile" />
+                    </Link>
                     <p className="register__title register__title_form">
                         Добро пожаловать!
                     </p>

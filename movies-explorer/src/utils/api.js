@@ -54,15 +54,6 @@ class Api {
             body: JSON.stringify({name, about})
         }).then(this.getReply)
     }
-
-
-    checkLikes(cardId, like) {
-        return fetch(`${this.url}/movies/likes/${cardId}`, {
-            method: like ? "PUT" : "DELETE",
-            headers: this.getHeaders()
-        })
-            .then(this.getReply)
-    }
 }
 
 const config = {

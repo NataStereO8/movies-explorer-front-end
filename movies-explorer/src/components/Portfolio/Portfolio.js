@@ -12,21 +12,21 @@ function Portfolio({props}) {
                 </div>
                 <ul className="portfolio__list">
                     <li className="portfolio-item">
-                        <Link className="portfolio-item__link" to="/">
+                        <Link className="portfolio-item__link" to="https://www.behance.net/Stereo8">
                             <p className="portfolio-item__text">Статичный сайт</p>
                             <img className="portfolio-item__icon" src={icon} alt="Стрелочка"/>
                         </Link>
                         <div className="portfolio-item__line"></div>
                     </li>
                     <li className="portfolio-item">
-                        <Link className="portfolio-item__link" to="/">
+                        <Link className="portfolio-item__link" to="https://www.behance.net/Stereo8">
                             <p className="portfolio-item__text">Адаптивный сайт</p>
                             <img className="portfolio-item__icon" src={icon} alt="Стрелочка"/>
                         </Link>
                         <div className="portfolio-item__line"></div>
                     </li>
                     <li className="portfolio-item">
-                        <Link className="portfolio-item__link" to="/">
+                        <Link className="portfolio-item__link" to="https://www.behance.net/Stereo8">
                             <p className="portfolio-item__text">Одностраничное приложение</p>
                             <img className="portfolio-item__icon" src={icon} alt="Стрелочка"/>
                         </Link>

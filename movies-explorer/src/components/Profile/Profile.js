@@ -23,7 +23,7 @@ function Profile({ loggedIn, handleLogout, handleUpdateUser }) {
                 handleLogout={handleLogout}
             />
             <div className="about">
-                <div className="profile__title profile__title_account">Привет, Натали</div>
+                <div className="profile__title profile__title_account">{`Привет, ${currentUser.name}!`}</div>
                 <div className="about__info">
                     <div className="about__text">
                         <p className="about__input-name">Имя</p>
