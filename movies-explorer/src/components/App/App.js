@@ -135,7 +135,6 @@ function App() {
             })
             .then((data) => {
                 setCurrentUser(data);
-                localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem("token", data.token);
                 setLoggedIn(true);
                 history.push("/movies");
@@ -163,6 +162,7 @@ function App() {
 
     function handleLogout() {
         localStorage.removeItem("token");
+        window.localStorage.removeItem(`movies-${currentUser.email}`);
         setLoggedIn(false);
         history.push("/signin");
     }
@@ -406,7 +406,7 @@ function App() {
         }
         }
         // eslint-disable-next-line
-    , [isShort], [searchStringSubmit]);
+    , [isShort]);
 
     React.useEffect(() => {
         const bfMovies = JSON.parse(localStorage.getItem('bfMovies'));
@@ -446,7 +446,7 @@ function App() {
         }
         
             // eslint-disable-next-line
-        }, [searchStringSubmit], [isShort]);
+        }, [searchStringSubmit]);
 
     React.useEffect(() => {
         const savedMoviesObject = JSON.parse(window.localStorage.getItem(`movies-${currentUser.email}`));
@@ -454,7 +454,7 @@ function App() {
             setMoviesFiltered(savedMoviesObject.movies);
             setSearchString(savedMoviesObject.searchPhrase);
         }
-    }, [currentUser]);
+    }, [currentUser], [searchStringSubmit], [isShort]);
 
     function handleSearchSubmit(event) {
         event.preventDefault();
