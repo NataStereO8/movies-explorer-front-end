@@ -22,7 +22,7 @@ function Movies({
     getMoreCount,
     likedMovies
 }) {
-
+    
     return (
         <div className="content">
             <Header loggedIn={loggedIn} />

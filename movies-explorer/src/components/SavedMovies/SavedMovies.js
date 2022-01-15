@@ -17,22 +17,19 @@ import Footer from "../Footer/Footer";
 
 function SavedMovies({
     loggedIn,
-    isLoading,
+    currentUser, 
     likedMovies,
     cardLikeButtonClicked,
     cardDeleteButtonClicked,
     isGetMoviesFetchError,
-    infoToolTipText,
+    infoToolTipText
 }) {
 
+    const [isLoading, setIsLoading] = React.useState(false);
     const [searchStringSubmit, setSearchStringSubmit] = React.useState("");
     const [isShort, setIsShort] = React.useState(false);
     const [moviesFiltered, setMoviesFiltered] = React.useState([]);
     const [searchString, setSearchString] = React.useState("");
-        // eslint-disable-next-line
-    // const [isMoreButton, setIsMoreButton] = React.useState(false);
-    // const [toolTipInfo, setToolTipInfo] = React.useState("");
-    // const [toolTipIcon, setToolTipIcon] = React.useState("");
     const [searchIsRun, setSearchIsRun] = React.useState(false);
 
     React.useEffect(() => {
@@ -53,15 +50,17 @@ function SavedMovies({
 
     function filter(isShort, array) {
         if (isShort) {
-            return array.filter((card) => card.duration <= 75);
+            return array.filter((card) => card.duration <= 40);
         }
         return array;
     }
     
     function handleSearchSubmit(event) {
         event.preventDefault();
+        setIsLoading(true);
         setSearchIsRun(true);
         setSearchStringSubmit(searchString);
+        setIsLoading(false);
     }
 
     function handleChangeSearchString(event) {

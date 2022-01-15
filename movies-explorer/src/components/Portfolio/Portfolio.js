@@ -1,7 +1,6 @@
 import React from 'react';
 import "../Portfolio/Portfolio.css";
 import icon from "../../images/arrow.svg";
-import { Link } from "react-router-dom";
 
 function Portfolio({props}) {
 
@@ -12,24 +11,24 @@ function Portfolio({props}) {
                 </div>
                 <ul className="portfolio__list">
                     <li className="portfolio-item">
-                        <Link className="portfolio-item__link" to="https://www.behance.net/Stereo8">
+                        <a className="portfolio-item__link" href="https://www.behance.net/Stereo8">
                             <p className="portfolio-item__text">Статичный сайт</p>
                             <img className="portfolio-item__icon" src={icon} alt="Стрелочка"/>
-                        </Link>
+                        </a>
                         <div className="portfolio-item__line"></div>
                     </li>
                     <li className="portfolio-item">
-                        <Link className="portfolio-item__link" to="https://www.behance.net/Stereo8">
+                        <a className="portfolio-item__link" href="https://www.behance.net/Stereo8">
                             <p className="portfolio-item__text">Адаптивный сайт</p>
                             <img className="portfolio-item__icon" src={icon} alt="Стрелочка"/>
-                        </Link>
+                        </a>
                         <div className="portfolio-item__line"></div>
                     </li>
                     <li className="portfolio-item">
-                        <Link className="portfolio-item__link" to="https://www.behance.net/Stereo8">
+                        <a className="portfolio-item__link" href="https://www.behance.net/Stereo8">
                             <p className="portfolio-item__text">Одностраничное приложение</p>
                             <img className="portfolio-item__icon" src={icon} alt="Стрелочка"/>
-                        </Link>
+                        </a>
                     </li>
                 </ul>
             </div>

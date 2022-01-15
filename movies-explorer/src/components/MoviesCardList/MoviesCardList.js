@@ -5,7 +5,6 @@ import Preloader from "../Preloader/Preloader";
 
 function MoviesCardList({
     isLoading,
-    moviesFiltered,
     cardsToShow,
     likedMovies,
     cardLikeButtonClicked,

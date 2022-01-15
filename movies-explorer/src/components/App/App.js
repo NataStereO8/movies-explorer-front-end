@@ -13,7 +13,7 @@ import InfoToolTip from "../InfoToolTip/InfoToolTip";
 import BadIcon from "../../images/bad-tik.svg";
 import GoodIcon from "../../images/good-tik.svg";
 import { getMovies } from "../../utils/MoviesApi";
-import { getPersonalInfo, setPersonalInfo, saveFilm, deleteFilm } from "../../utils/MainApi";
+import { getPersonalInfo, setPersonalInfo, saveFilm, deleteFilm, getSavedMovies } from "../../utils/MainApi";
 import { getUserInfo } from "../../utils/auth";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "./App.css";
@@ -37,7 +37,10 @@ function App() {
     const [currentUser, setCurrentUser] = React.useState({});
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [isOpenToolTip, setIsOpenToolTip] = React.useState(false);
+    // eslint-disable-next-line
     const [movies, setMovies] = React.useState([]);
+    const [isShort, setIsShort] = React.useState(false);
+    const [searchString, setSearchString] = React.useState("");
     const [likedMovies, setLikedMovies] = React.useState([]);
     const [toolTipInfo, setToolTipInfo] = React.useState("");
     const [toolTipIcon, setToolTipIcon] = React.useState("");
@@ -45,10 +48,8 @@ function App() {
     const [pageWidth, setPageWidth] = React.useState(0);
     const [visibleCount, setVisibleCount] = React.useState(0);
     const [searchStringSubmit, setSearchStringSubmit] = React.useState("");
-    const [isShort, setIsShort] = React.useState(false);
     const [moviesFiltered, setMoviesFiltered] = React.useState([]);
-    const [searchString, setSearchString] = React.useState("");
-            // eslint-disable-next-line
+    // eslint-disable-next-line
     const [isMoreButton, setIsMoreButton] = React.useState(false);
     const history = useHistory();
 
@@ -56,11 +57,11 @@ function App() {
     //проверки и обновление ползователя, регистрация и авторизация
     // _________________________________________________________________________________________________________________
 
-    // React.useEffect(() => {
-    //     checkToken();
-    //     getCurrentUser();
-    //     // eslint-disable-next-line
-    // }, [])
+    React.useEffect(() => {
+        checkToken();
+        getCurrentUser();
+        // eslint-disable-next-line
+    }, [])
 
     React.useEffect(() => {
         checkToken();
@@ -69,16 +70,16 @@ function App() {
                 setCurrentUser(userData);
             })
             .catch((err) => alert(err));
-                    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [loggedIn]);
 
-    // function getCurrentUser() {
-    //     getPersonalInfo()
-    //         .then((res) => {
-    //             setCurrentUser(res);
-    //         })
-    //         .catch((err) => alert(err));
-    // }
+    function getCurrentUser() {
+        getPersonalInfo()
+            .then((res) => {
+                setCurrentUser(res);
+            })
+            .catch((err) => alert(err));
+    }
 
     function checkToken() {
         const token = localStorage.getItem("token");
@@ -105,6 +106,8 @@ function App() {
                 if (res.ok) {
                     setCurrentUser(res);
                     successRegister();
+                    setLoggedIn(true);
+                    handleLogin(email, password);
                     setToolTipInfo(registerSuccessMessage);
                     setToolTipIcon(GoodIcon);
                 } else {
@@ -132,6 +135,7 @@ function App() {
             })
             .then((data) => {
                 setCurrentUser(data);
+                localStorage.setItem('isLoggedIn', 'true');
                 localStorage.setItem("token", data.token);
                 setLoggedIn(true);
                 history.push("/movies");
@@ -172,17 +176,6 @@ function App() {
     //работа с фильмами
     // _________________________________________________________________________________________________________________
 
-    React.useEffect(() => {
-        getMovies()
-            .then((res) => {
-                setMovies(res);
-                setIsLoading(true);
-            })
-            .then(() => {
-                setIsLoading(false);
-            })
-            .catch((e) => console.log(e));
-    }, []);
 
     function prepareMovieToSave({
         nameRU,
@@ -222,7 +215,8 @@ function App() {
         saveFilm(prepareMovieToSave(movie))
             .then((addedMovie) => {
                 // console.log(likedMovies);
-                setLikedMovies([...likedMovies, addedMovie.data]);
+                setLikedMovies([addedMovie.data, ...likedMovies]);
+                localStorage.setItem('savedMovies', JSON.stringify([addedMovie.data, ...likedMovies]));
                 // console.log(addedMovie.data);
                 // console.log(likedMovies);
             })
@@ -234,14 +228,10 @@ function App() {
     }
 
     function cardDislikeButtonClicked(movie) {
-        // console.log(movie.id);
         const id = likedMovies.find((i) => i.movieId === movie.id)._id;
-        // console.log(id);
-        // console.log(likedMovies);
         deleteFilm(id)
             .then(() => {
                 const filteredLikedMovies = likedMovies.filter((i) => i._id !== id);
-                console.log(filteredLikedMovies[0]);
                 setLikedMovies(filteredLikedMovies);
             })
             .catch((e) => {
@@ -255,7 +245,6 @@ function App() {
         deleteFilm(movie._id)
             .then(() => {
                 const filteredLikedMovies = likedMovies.filter((i) => i._id !== movie._id);
-                console.log(filteredLikedMovies);
                 setLikedMovies(filteredLikedMovies);
             })
             .catch((e) => {
@@ -325,23 +314,147 @@ function App() {
     // _________________________________________________________________________________________________________________
 
     React.useEffect(() => {
-        if (searchStringSubmit && isShort) {
-            setVisibleCount(getMoreCount());
-            setMoviesFiltered(filterMoviesByDuration(moviesFiltered, isShort));
-        } else if (!isShort) {
-            setVisibleCount(getMoreCount());
-            setMoviesFiltered(filterMoviesBySearchString(movies, searchStringSubmit));
-        }
-        // eslint-disable-next-line
-    }, [isShort]);
+        getSavedMovies()
+            .then((res) => {
+                setLikedMovies(res.filter((movie) => movie.owner === currentUser._id));
+                localStorage.setItem('likedMovies', JSON.stringify(res));
+            })
+            .catch((e) => console.log(e));
+    }, [currentUser]);
+
+    // function searchMovies(searchString) {
+    //     const bfMovies = JSON.parse(localStorage.getItem('bfMovies'));
+    //     console.log(movies);
+    //     setVisibleCount(getMoreCount());
+    //     setMoviesFiltered(filterMoviesBySearchString(bfMovies, searchString));
+    //     localStorage.setItem('searchMovies', JSON.stringify(moviesFiltered));
+    // };
+
+    // function handleSearchSubmit(searchString) {
+    //     const bfMovies = JSON.parse(localStorage.getItem('bfMovies'));
+    //     if (!bfMovies) {
+    //         setIsLoading(true);
+    //         getMovies()
+    //             .then((res) => {
+    //                 window.localStorage.setItem('bfMovies', JSON.stringify(res));
+    //                 setIsLoading(false);
+    //             })
+    //             .then(() => {
+    //                 searchMovies(searchString);
+    //             })
+    //             .catch((e) => console.log(e))
+    //             .finally(() => setIsLoading(false));
+    //     } else {
+    //         searchMovies(searchString);
+    //     }
+    // };
 
     React.useEffect(() => {
-        if (searchStringSubmit) {
-            setVisibleCount(getMoreCount());
-            setMoviesFiltered(filterMoviesBySearchString(movies, searchStringSubmit));
+        const bfMovies = JSON.parse(localStorage.getItem('bfMovies'));
+        console.log(bfMovies);
+        if (!bfMovies) {
+            setIsLoading(true);
+            getMovies()
+                .then((res) => {
+                    localStorage.setItem('bfMovies', JSON.stringify(res));
+                })
+                .then((res) => {
+                    if (!isShort) {
+                        setVisibleCount(getMoreCount());
+                        setMoviesFiltered(filterMoviesBySearchString(res, searchStringSubmit));
+                        const moviesInStorage = {
+                            user: currentUser.email,
+                            searchPhrase: searchString,
+                            movies: filterMoviesBySearchString(res, searchStringSubmit),
+                        }
+                        window.localStorage.setItem(`movies-${currentUser.email}`, JSON.stringify(moviesInStorage ));
+                    } else if (searchStringSubmit && isShort) {
+                        setVisibleCount(getMoreCount());
+                        setMoviesFiltered(filterMoviesByDuration(moviesFiltered, isShort));
+                        const moviesInStorage = {
+                            user: currentUser.email,
+                            searchPhrase: searchString,
+                            movies: filterMoviesByDuration(moviesFiltered, isShort),
+                        }
+                        window.localStorage.setItem(`movies-${currentUser.email}`, JSON.stringify(moviesInStorage ));
+                    }
+                }
+                )
+                .then(() => {
+                    setIsLoading(false);
+                })
+        } else {
+            if (!isShort) {
+                setVisibleCount(getMoreCount());
+                setMoviesFiltered(filterMoviesBySearchString(bfMovies, searchStringSubmit));
+                const moviesInStorage = {
+                    user: currentUser.email,
+                    searchPhrase: searchString,
+                    movies: filterMoviesBySearchString(bfMovies, searchStringSubmit),
+                }
+                window.localStorage.setItem(`movies-${currentUser.email}`, JSON.stringify(moviesInStorage ));
+            } else if (searchStringSubmit && isShort) {
+                setVisibleCount(getMoreCount());
+                setMoviesFiltered(filterMoviesByDuration(moviesFiltered, isShort));
+                const moviesInStorage = {
+                    user: currentUser.email,
+                    searchPhrase: searchString,
+                    movies: filterMoviesByDuration(moviesFiltered, isShort),
+                }
+                window.localStorage.setItem(`movies-${currentUser.email}`, JSON.stringify(moviesInStorage ));
+            }
+        }
         }
         // eslint-disable-next-line
-    }, [searchStringSubmit]);
+    , [isShort], [searchStringSubmit]);
+
+    React.useEffect(() => {
+        const bfMovies = JSON.parse(localStorage.getItem('bfMovies'));
+        if (!bfMovies) {
+            setIsLoading(true);
+            getMovies()
+                .then((res) => {
+                    localStorage.setItem('bfMovies', JSON.stringify(res));
+                })
+                .then((res) => {
+                    if (searchStringSubmit) {
+                        setVisibleCount(getMoreCount());
+                        setMoviesFiltered(filterMoviesBySearchString(res, searchStringSubmit));
+                        const moviesInStorage = {
+                            user: currentUser.email,
+                            searchPhrase: searchString,
+                            movies: filterMoviesBySearchString(res, searchStringSubmit),
+                        }
+                        window.localStorage.setItem(`movies-${currentUser.email}`, JSON.stringify(moviesInStorage ));
+                    }
+                }
+                )
+                .then(() => {
+                    setIsLoading(false);
+                })
+        } else {
+            if (searchStringSubmit) {
+                setVisibleCount(getMoreCount());
+                setMoviesFiltered(filterMoviesBySearchString(bfMovies, searchStringSubmit));
+                const moviesInStorage = {
+                    user: currentUser.email,
+                    searchPhrase: searchString,
+                    movies: filterMoviesBySearchString(bfMovies, searchStringSubmit),
+                }
+                window.localStorage.setItem(`movies-${currentUser.email}`, JSON.stringify(moviesInStorage ));
+            }
+        }
+        
+            // eslint-disable-next-line
+        }, [searchStringSubmit], [isShort]);
+
+    React.useEffect(() => {
+        const savedMoviesObject = JSON.parse(window.localStorage.getItem(`movies-${currentUser.email}`));
+        if (savedMoviesObject) {
+            setMoviesFiltered(savedMoviesObject.movies);
+            setSearchString(savedMoviesObject.searchPhrase);
+        }
+    }, [currentUser]);
 
     function handleSearchSubmit(event) {
         event.preventDefault();
@@ -382,18 +495,21 @@ function App() {
                     component={SavedMovies}
                     setCurrentUser={currentUser}
                     isLoading={isLoading}
-                    cardsToShow={cardsToShow} 
+                    cardsToShow={cardsToShow}
                     cardLikeButtonClicked={cardLikeButtonClicked}
                     cardDeleteButtonClicked={cardDeleteButtonClicked}
                     visibleCount={visibleCount}
                     getMoreCount={getMoreCount}
                     likedMovies={likedMovies}
+                    currentUser={currentUser}
                 />
                 <ProtectedRoute path="/movies"
                     loggedIn={loggedIn}
                     component={Movies}
                     setCurrentUser={currentUser}
                     isLoading={isLoading}
+                    getMoreCount={getMoreCount}
+                    setVisibleCount={setVisibleCount}
                     handleChangeSearchString={handleChangeSearchString}
                     handleChangeIsShort={handleChangeIsShort}
                     handleSearchSubmit={handleSearchSubmit}
@@ -405,7 +521,6 @@ function App() {
                     cardLikeButtonClicked={cardLikeButtonClicked}
                     cardDislikeButtonClicked={cardDislikeButtonClicked}
                     visibleCount={visibleCount}
-                    getMoreCount={getMoreCount}
                     likedMovies={likedMovies}
                 />
                 <ProtectedRoute path="/profile"
