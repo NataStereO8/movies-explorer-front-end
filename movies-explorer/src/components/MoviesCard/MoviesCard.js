@@ -12,8 +12,9 @@ function MoviesCard({
     const location = useLocation();
 
     const isSaved =
-        location.pathname === "/movies" ? likedMovies.some((i) => i.movieId === movie.i) : true;
-
+        location.pathname === "/movies" ? likedMovies.some((i) => i.movieId === movie.id) : true;
+    
+    // console.log(isSaved);
 
     function handleLikeClick() {
         if (!isSaved) {
@@ -57,7 +58,7 @@ function MoviesCard({
                     onClick={handleLikeClick}
                 ></button>
             </div>
-            <Link to={{ pathname: movie.trailerLink }} target="_blank">
+            <Link to={{ pathname: movie.trailerLink || movie.trailer}} target="_blank">
                 <div className="film__cover">
                     <img
                         src={`${location.pathname === '/movies' ? 'https://api.nomoreparties.co' : ''}${location.pathname === '/movies' ? movie.image.url : movie.image}`}

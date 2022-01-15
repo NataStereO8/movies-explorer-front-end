@@ -6,7 +6,7 @@ const updateSuccessMessage = 'Данные успешно обновлены!';
 const movieSearchErrorMessage = 'Ошибка запроса к серверу';
 const loginErrorMessage = 'Неправильные логин или пароль';
 const BASE_URL_BEATFILM = 'https://api.nomoreparties.co';
-const BASE_URL = 'http://cinemaholic.nomoredomains.work';
+const BASE_URL = 'https://api.cinemaholic.nomoredomains.work';
 
 export {
     shortFilmDuration,

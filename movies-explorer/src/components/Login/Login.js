@@ -28,7 +28,9 @@
         <section className="login">
         <div className="login__countainer">
             <div className="form__header">
-            <img src={logo} alt="Лого в шапке" className="logo_profile" />
+                <Link to="/">
+                    <img src={logo} alt="Лого в шапке" className="logo logo_profile" />
+                </Link>
             <p className="login__title login__title_form">
                 Добро пожаловать, чувак!
             </p>

@@ -5,7 +5,6 @@ import Preloader from "../Preloader/Preloader";
 
 function MoviesCardList({
     isLoading,
-    moviesFiltered,
     cardsToShow,
     likedMovies,
     cardLikeButtonClicked,
@@ -15,7 +14,7 @@ function MoviesCardList({
     return (
         <section className="moviesList">
             {isLoading && <Preloader />}
-            {moviesFiltered.length > 0 ? (
+            {cardsToShow.length > 0 ? (
                 <ul className="films-list">
                     {cardsToShow.map((movie) => {
                         return (
